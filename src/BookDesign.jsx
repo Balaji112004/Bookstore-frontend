@@ -2,17 +2,22 @@ import React, { useContext } from "react"; // import React and useContext hook
 import { UserContext } from "./context/UserContext"; // import your context
 
 
-function BookDesign({ trend }) {
-   const { user, setUser } = useContext(UserContext);
-  const cartSubmit = async (ProductId) => {
-    try {
-      const res = await axios.post("http://localhost:8080/api/cartAdd/{ProductId}",user.id);
-      // setTrendingProducts(res.data || []);
-      console.log(res.data);
-    } catch (err) {
-      console.error("Error fetching trending books:", err);
-    }
-  };
+const cartSubmit = async (ProductId) => {
+  try {
+    const res = await axios.post(
+      `https://bookstorebackend-production-f262.up.railway.app/api/cartAdd/${ProductId}`,
+      {
+        userId: user.id
+      }
+    );
+
+    console.log(res.data);
+
+  } catch (err) {
+    console.error("Error adding to cart:", err);
+  }
+};
+
   return (
     <div className="lg:w-[210px] w-[150px] h-[360px] lg:h-[420px] gap-6 bg-white rounded-xl shadow p-2 lg:p-4 flex-row items-center justify-center">
       <div className="">
