@@ -7,9 +7,11 @@ function Order() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const backendBaseUrl = "https://bookstorebackend-production-f262.up.railway.app";
+
   const fetchOrders = async (userId) => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/orders/${userId}`);
+      const res = await axios.get(`${backendBaseUrl}/api/orders/${userId}`);
       console.log("Orders:", res.data);
       setOrders(res.data);
     } catch (err) {
@@ -39,7 +41,6 @@ function Order() {
           className="border rounded-lg mb-8 p-4 shadow-sm hover:shadow-md transition"
         >
           <div className="flex justify-between items-center mb-3">
-            {/* <h2 className="text-xl font-semibold">Order #{order.id}</h2> */}
             <span
               className={`px-3 py-1 text-sm rounded ${
                 order.status === "PENDING"
@@ -53,16 +54,18 @@ function Order() {
 
           <div className="flex justify-between">
             <p className="text-gray-600">
-            <strong className="text-lg lg:text-xl">Total:</strong> 
-            <span className="text-lg lg:text-xl text-green-700 font-bold">₹{order.totalAmount.toFixed(2)}</span>
-          </p>
-          <p className="text-gray-500 text-sm mb-4">
-            <strong>Date:</strong>{" "}
-            {new Date(order.orderDate).toLocaleString()}
-          </p>
+              <strong className="text-lg lg:text-xl">Total:</strong>
+              <span className="text-lg lg:text-xl text-green-700 font-bold">
+                ₹{order.totalAmount.toFixed(2)}
+              </span>
+            </p>
+            <p className="text-gray-500 text-sm mb-4">
+              <strong>Date:</strong>{" "}
+              {new Date(order.orderDate).toLocaleString()}
+            </p>
           </div>
 
-          {/*Display products ordered */}
+          {/* Products List */}
           <div className="space-y-3">
             {order.items.map((item) => (
               <div
