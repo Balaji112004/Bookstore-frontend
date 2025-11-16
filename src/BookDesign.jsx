@@ -25,7 +25,7 @@ function BookDesign({ trend }) {
   };
 
   return (
-    <div className="lg:w-[210px] w-[150px] h-[360px] lg:h-[420px] gap-6 bg-white rounded-xl shadow p-2 lg:p-4 flex flex-col items-center">
+    <div className="lg:w-[220px] w-[150px] h-[360px] lg:h-[420px] gap-6 bg-white rounded-xl shadow p-2 lg:p-4 flex flex-col items-center">
       <img
         src={trend.coverImage}
         className="lg:h-[250px] w-[140px] h-[200px] lg:w-[170px] rounded-xl cursor-pointer shadow-2xl"
