@@ -10,7 +10,6 @@ function PaymentSuccess() {
   const navigate = useNavigate();
 
   const backendBaseUrl = "https://bookstorebackend-production-f262.up.railway.app";
-
   useEffect(() => {
     const verifyPayment = async () => {
       try {
