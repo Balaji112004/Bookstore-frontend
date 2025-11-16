@@ -36,7 +36,7 @@ function Home() {
   // Fetch trending books
   const fetchTrending = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/trending");
+      const res = await axios.get("https://bookstorebackend-production-f262.up.railway.app/api/trending");
       setTrendingProducts(res.data || []);
     } catch (err) {
       console.error("Error fetching trending books:", err);
@@ -46,7 +46,7 @@ function Home() {
   // Fetch all books
   const fetchFullBooks = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/fullBooks");
+      const res = await axios.get("https://bookstorebackend-production-f262.up.railway.app/api/fullBooks");
       setFullBooks(res.data || []);
     } catch (err) {
       console.error("Error fetching full books:", err);
@@ -57,7 +57,7 @@ function Home() {
   const fetchCategoryBooks = async (selectedCategory) => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/api/category/${selectedCategory}`
+        `https://bookstorebackend-production-f262.up.railway.app/api/category/${selectedCategory}`
       );
       setCategoryBooks(res.data || []);
     } catch (err) {
@@ -82,7 +82,7 @@ function Home() {
         productId: selectedBook.id,
         quantity: quantity,
       };
-      await axios.post("http://localhost:8080/api/cart", payload);
+      await axios.post("https://bookstorebackend-production-f262.up.railway.app/api/cart", payload);
       alert("Added to cart successfully!");
     } catch (err) {
       console.error("Error adding to cart:", err);
