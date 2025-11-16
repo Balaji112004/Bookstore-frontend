@@ -7,6 +7,8 @@ function Cart() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const backendURL = "https://bookstorebackend-production-f262.up.railway.app";
+
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [placingOrder, setPlacingOrder] = useState(false);
@@ -14,7 +16,7 @@ function Cart() {
   // ---------------- Fetch Cart Items ----------------
   const fetchCartData = async (userId) => {
     try {
-      const res = await axios.get(`http://localhost:8080/api/cart/${userId}`);
+      const res = await axios.get(`${backendURL}/api/cart/${userId}`);
       setCartItems(res.data);
     } catch (err) {
       console.error("Error fetching cart items:", err);
@@ -25,7 +27,7 @@ function Cart() {
 
   const deleteCartItem = async (productId) => {
     try {
-      await axios.delete(`http://localhost:8080/api/cartDeleteByProduct/${productId}`);
+      await axios.delete(`${backendURL}/api/cartDeleteByProduct/${productId}`);
       fetchCartData(user.id);
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -56,13 +58,13 @@ function Cart() {
     setPlacingOrder(true);
 
     try {
-      // ✅ Step 1 — Place order in your DB first
+      // Step 1 — Create Order in your DB
       const orderRes = await axios.post(
-        `http://localhost:8080/api/orders/place/${user.id}`
+        `${backendURL}/api/orders/place/${user.id}`
       );
       const order = orderRes.data;
 
-      // ✅ Step 2 — Create Cashfree payment session for that order
+      // Step 2 — Create Cashfree payment session
       const paymentPayload = {
         orderAmount: totalAmount.toFixed(2),
         customerEmail: user.email || "customer@example.com",
@@ -71,7 +73,7 @@ function Cart() {
       };
 
       const cfRes = await axios.post(
-        `http://localhost:8080/api/orders/payment/${user.id}/${order.id}`,
+        `${backendURL}/api/orders/payment/${user.id}/${order.id}`,
         paymentPayload
       );
 
@@ -87,12 +89,12 @@ function Cart() {
         return;
       }
 
-      // ✅ Step 3 — Launch Cashfree Checkout
+      // Step 3 — Launch Cashfree Checkout
       const cashfree = new window.Cashfree({ mode: "sandbox" });
       cashfree.checkout({
         paymentSessionId: paymentSessionId,
         redirectTarget: "_top",
-        redirectUrl: `http://localhost:5173/payment-success?orderId=${encodeURIComponent(
+        redirectUrl: `https://your-vercel-domain.vercel.app/payment-success?orderId=${encodeURIComponent(
           orderId
         )}`,
       });
