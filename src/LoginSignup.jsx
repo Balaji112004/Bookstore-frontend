@@ -58,26 +58,25 @@ function LoginSignup() {
     }
   };
 
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(`${backendURL}/api/user/login`, loginData);
-
-      if (res.data) {
-        setUser(res.data);
-        console.log(res.data);
-        alert(`Welcome, ${res.data.name}!`);
-        navigate("/home");
-      } else {
-        alert("Invalid credentials!");
-      }
-
-      setLoginData({ name: "", password: "" });
-    } catch (err) {
-      console.error(err);
-      alert("Login failed!");
+const handleLoginSubmit = async (e) => {
+  e.preventDefault();
+  console.log("Login attempt:", loginData); // <--- check values
+  try {
+    const res = await axios.post(`${backendURL}/api/user/login`, loginData);
+    console.log("Login response:", res.data);
+    if (res.data) {
+      setUser(res.data);
+      alert(`Welcome, ${res.data.name}!`);
+      navigate("/home");
+    } else {
+      alert("Invalid credentials!");
     }
-  };
+  } catch (err) {
+    console.error("Login failed:", err);
+    alert("Login failed!");
+  }
+};
+
 
   return (
     <div className="h-[20vh] ">
