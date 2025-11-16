@@ -11,14 +11,16 @@ function Nav() {
   const [fullBooks, setFullBooks] = useState([]);
   const [dropfun, setDropfun] = useState(false);
 
-  // Fetch full books
+  // 🔥 Backend Base URL
+  const backendURL = "https://bookstorebackend-production-f262.up.railway.app";
+
   useEffect(() => {
     FullBooks();
   }, []);
 
   const FullBooks = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/fullBooks");
+      const res = await axios.get(`${backendURL}/api/fullBooks`);
       console.log(res.data);
       setFullBooks(res.data);
     } catch (e) {
@@ -33,7 +35,7 @@ function Nav() {
   };
 
   const dropfunctions = () => {
-    setDropfun((prev) => !prev); // toggle dropdown
+    setDropfun((prev) => !prev);
   };
 
   return (
@@ -47,6 +49,7 @@ function Nav() {
               </h1>
             </Link>
           </div>
+
           {/* Search bar */}
           <div className="col-span-6 pl-5 lg:pl-0 lg:col-span-5 flex">
             <form className="w-full">
@@ -85,10 +88,9 @@ function Nav() {
             </Link>
           </div>
 
-          {/* Conditional Render based on login */}
+          {/* Conditional Render */}
           {user ? (
             <>
-              {/* Desktop Greeting */}
               <div className="text-white text-md hidden lg:block">
                 Hello, <span className="font-bold">{user.name}</span>
               </div>
@@ -100,73 +102,72 @@ function Nav() {
                   onClick={dropfunctions}
                 ></i>
 
-                {/* Mobile Slide-in Menu */}
-              {dropfun && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
-                  <div
-                    className={`absolute top-0 right-0 h-full w-[70%] bg-white p-4 shadow-lg transform transition-transform duration-300 ease-in-out ${
-                      dropfun ? "translate-x-0" : "-translate-x-full"
-                    }`}
-                  >
-                    {/* Header section */}
-                    <div className="flex justify-between items-center mb-4">
-                      <div>
-                        <h2 className="text-lg font-bold">Menu</h2>
-                        <p className="text-md text-gray-600">Hello, {user?.name}</p>
-                      </div>
-                      <button
-                        className="text-2xl font-bold"
-                        onClick={() => setDropfun(false)}
-                      >
-                        ×
-                      </button>
-                    </div>
-
-                    {/* Menu links */}
-                    <ul className="space-y-4">
-                      <li>
-                        <Link
-                          to="/"
-                          className="block text-black text-lg hover:text-blue-500"
-                          onClick={() => setDropfun(false)}
-                        >
-                          Home
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/cart"
-                          className="block text-black text-lg hover:text-blue-500"
-                          onClick={() => setDropfun(false)}
-                        >
-                          Cart
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/order"
-                          className="block text-black text-lg hover:text-blue-500"
-                          onClick={() => setDropfun(false)}
-                        >
-                          Orders
-                        </Link>
-                      </li>
-                      <li>
+                {/* Mobile Menu */}
+                {dropfun && (
+                  <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+                    <div
+                      className={`absolute top-0 right-0 h-full w-[70%] bg-white p-4 shadow-lg transform transition-transform duration-300 ease-in-out ${
+                        dropfun ? "translate-x-0" : "-translate-x-full"
+                      }`}
+                    >
+                      <div className="flex justify-between items-center mb-4">
+                        <div>
+                          <h2 className="text-lg font-bold">Menu</h2>
+                          <p className="text-md text-gray-600">
+                            Hello, {user?.name}
+                          </p>
+                        </div>
                         <button
-                          onClick={() => {
-                            handleLogout();
-                            setDropfun(false);
-                          }}
-                          className="block w-full text-left text-lg text-red-600 hover:text-red-800"
+                          className="text-2xl font-bold"
+                          onClick={() => setDropfun(false)}
                         >
-                          Logout
+                          ×
                         </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              )}
+                      </div>
 
+                      <ul className="space-y-4">
+                        <li>
+                          <Link
+                            to="/"
+                            className="block text-black text-lg hover:text-blue-500"
+                            onClick={() => setDropfun(false)}
+                          >
+                            Home
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/cart"
+                            className="block text-black text-lg hover:text-blue-500"
+                            onClick={() => setDropfun(false)}
+                          >
+                            Cart
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/order"
+                            className="block text-black text-lg hover:text-blue-500"
+                            onClick={() => setDropfun(false)}
+                          >
+                            Orders
+                          </Link>
+                        </li>
+                        <li>
+                          <button
+                            onClick={() => {
+                              handleLogout();
+                              setDropfun(false);
+                            }}
+                            className="block w-full text-left text-lg text-red-600 hover:text-red-800"
+                          >
+                            Logout
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Desktop Logout */}
@@ -183,17 +184,11 @@ function Nav() {
             <div className="col-span-3 lg:col-span-2 relative">
               <Link to="/loginsignup">
                 <button className="p-1 bg-white rounded lg:text-md absolute right-3 bottom-[-19px] flex items-center">
-                  {/* Mobile view: show only icon */}
-                  {/* <i className="bx bx-log-in text-xl block lg:hidden"></i> */}
-                  <i className='bx bx-user-plus text-2xl px-2 block lg:hidden' ></i>
-
-                  {/* Desktop view: show text */}
+                  <i className="bx bx-user-plus text-2xl px-2 block lg:hidden"></i>
                   <span className="hidden lg:block">Login / Sign Up</span>
                 </button>
               </Link>
             </div>
-
-            
           )}
         </div>
       </div>
