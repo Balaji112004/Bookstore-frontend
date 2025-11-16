@@ -9,13 +9,15 @@ function PaymentSuccess() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const backendBaseUrl = "https://bookstorebackend-production-f262.up.railway.app";
+
   useEffect(() => {
     const verifyPayment = async () => {
       try {
         console.log("🔍 Verifying payment for order:", orderId);
 
         const res = await axios.post(
-          `http://localhost:8080/api/orders/verify/${orderId}`,
+          `${backendBaseUrl}/api/orders/verify/${orderId}`,
           {
             payment_id: "test_payment_id_123",
             signature: "test_signature_123",
@@ -26,15 +28,13 @@ function PaymentSuccess() {
 
         if (res.data.success) {
           alert("✅ Payment successful! Order confirmed.");
-          navigate("/orders");
+          navigate("/order");
         } else {
           console.error("❌ Payment verification failed!", res.data.message);
           navigate("/cart");
         }
       } catch (err) {
-        // ❌ Removed the second alert here
         console.error("🚨 Payment verification error:", err);
-        // Just redirect silently without showing alert
         navigate("/cart");
       }
     };
