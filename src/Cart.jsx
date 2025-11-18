@@ -94,7 +94,7 @@ function Cart() {
       cashfree.checkout({
         paymentSessionId: paymentSessionId,
         redirectTarget: "_top",
-        redirectUrl: `https://your-vercel-domain.vercel.app/payment-success?orderId=${encodeURIComponent(
+        redirectUrl: `https://bookstorebackend-production-f262.up.railway.app/payment-success?orderId=${encodeURIComponent(
           orderId
         )}`,
       });
